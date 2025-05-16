@@ -1,6 +1,7 @@
 import { ResultContainer, ResultTitle, ResultRow, QuerySection, QueryTitle, QueryBox, StatusText, ErrorMessage } from "./ResultDisplay.styles";
 
 const ResultDisplay = ({ result, error }) => {
+
   if (error) {
     return (
       <ResultContainer error>

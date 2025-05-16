@@ -2,9 +2,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import GlobalStyles from "./styles/GlobalStyles";
 import Header from "./components/Header/Header";
-import JiraForm from "./components/JiraForm/JiraForm";
-import ResultDisplay from "./components/ResultDisplay/ResultDisplay";
 import Footer from "./components/Footer/Footer";
+import JiraForm from "./components/JiraForm/JiraForm";
+import ResultDisplay from "./components/ResultDisplay/ResultDisplay"
 
 const Container = styled.div`
   min-height: 100vh;
@@ -51,6 +51,19 @@ function App() {
         throw new Error("Invalid Jira key format. Example: PROJ-123");
       }
 
+
+      /* Backend Integration
+          try {
+              const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/validate/${jiraKey}`);
+              setResult(response.data);
+          } catch (err) {
+              setError(err.response?.data?.message || "An error occurred");
+              setResult(null);
+          } finally {
+              setLoading(false);
+          }
+      */
+     
       // Get mock response
       const response = mockApiResponse[jiraKey] || {
         status: "success",
@@ -78,7 +91,7 @@ function App() {
         <Content>
           <Header />
           <JiraForm jiraKey={jiraKey} setJiraKey={setJiraKey} loading={loading} handleSubmit={handleSubmit} />
-          <ResultDisplay result={result} error={error} />
+          <ResultDisplay result={result} error={error} loading={loading} />
           <Footer />
         </Content>
       </Container>
