@@ -24,8 +24,16 @@ def main():
         status = determine_status(validation_results)
         print("Status:", status.value)
         
-        # Get card details
-        card_details = my_jira.get_card_details(JIRA_KEY)
+        # Get card details using get_jira_card
+        jira_card = my_jira.get_jira_card(JIRA_KEY)
+        if not jira_card:
+            raise Exception("Failed to get Jira card details")
+            
+        # Extract card details from the response
+        card_details = {
+            'fixVersion': jira_card['fields'].get('fixVersions', [{}])[0].get('name', 'Unknown Version'),
+            'summary': jira_card['fields'].get('summary', 'No Summary')
+        }
         
         # Prepare validation results for email
         validation_data = {
@@ -37,13 +45,13 @@ def main():
         
         # Send email with validation results
         email_success = send_validation_report_email(
-            fix_version_name=card_details.get('fixVersion', 'Unknown Version'),
+            fix_version_name=card_details['fixVersion'],
             results={'Not Started': 0, 'Deferred': 0, 'In Progress': 0,
                     'Pending First Occurrence': 0, 'Partially Validated': 0,
                     'Failed': 0, 'Done': 0},  # Update these counts based on your needs
             cards=[{
                 'key': JIRA_KEY,
-                'summary': card_details.get('summary', 'No Summary'),
+                'summary': card_details['summary'],
                 'status': status.value
             }],
             validation_results=validation_data
