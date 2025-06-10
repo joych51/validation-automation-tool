@@ -14,9 +14,10 @@ def send_validation_report_email(fix_version_name, results, cards, validation_re
     """Generate and send validation report email"""
     # Create message
     msg = MIMEMultipart()
-    msg['Subject'] = f"Validation Report: {fix_version_name} - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+    msg['Subject'] = f"Stratus Validation Report: {fix_version_name} - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
     msg['From'] = "junsoeng.lee@jpmchase.com"
-    msg['To'] = "Stratus_PROD_Validations@restricted.chase.com"
+    msg['To'] = "junsoeng.lee@jpmchase.com"
+    # "Stratus_PROD_Validations@restricted.chase.com"
     
     # Create HTML content
     html = f"""
@@ -25,8 +26,9 @@ def send_validation_report_email(fix_version_name, results, cards, validation_re
         <style>
           body {{ font-family: Arial, sans-serif; margin: 20px; }}
           h1 {{ color: #0052CC; }}
-          table {{ border-collapse: collapse; width: 100%; margin-bottom: 20px; }}
-          th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
+          .summary-table {{width: 30%; margin: 0 auto }}
+          table {{ border-collapse: collapse; width: 100%; }}
+          th, td {{ border: 1px solid #ddd; padding: 6px; text-align: left; }}
           th {{ background-color: #f2f2f2; }}
           .success {{ color: green; }}
           .failed {{ color: red; }}
@@ -37,7 +39,7 @@ def send_validation_report_email(fix_version_name, results, cards, validation_re
       <body>
         <h1>Validation Report: {fix_version_name}</h1>
         <h2>Summary</h2>
-        <table>
+        <table class = "summary-table">
           <tr>
             <th>Status</th>
             <th>Count</th>
@@ -104,7 +106,7 @@ def send_validation_report_email(fix_version_name, results, cards, validation_re
         
         html += f"""
           <tr>
-            <td><a href="https://jira.yourcompany.com/browse/{card['key']}">{card['key']}</a></td>
+            <td><a href=https://jiradc-cib-cluster02.prod.aws.jpmchase.net/browse/{card['key']}">{card['key']}</a></td>
             <td>{card['summary']}</td>
             <td class="{status_color}">{card['status']}</td>
             <td class="{status_color}">{validation_status}</td>
@@ -215,7 +217,7 @@ def save_email_to_file(fix_version_name, results, cards):
         
         html += f"""
           <tr>
-            <td><a href="https://jira.yourcompany.com/browse/{card['key']}">{card['key']}</a></td>
+            <td><a href="https://jiradc-cib-cluster02.prod.aws.jpmchase.net/browse/{card['key']}">{card['key']}</a></td>
             <td>{card['summary']}</td>
             <td style="{status_color}">{card['status']}</td>
           </tr>
