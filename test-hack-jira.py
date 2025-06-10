@@ -10,7 +10,10 @@ def main():
     passwd = getpass.getpass("Enter Jira Password: ")
     jira_url = "https://jiradc-cib-cluster02.prod.aws.jpmchase.net/rest/api/2/"
     my_jira = Jira(jira_url, sid, passwd)
-    
+    my_json = my_jira.create_json(["MS2025-03-11"],None,None)
+
+    print(my_json)
+
     try:
         print("Attempting to authenticate with Jira...")
 
@@ -44,7 +47,7 @@ def main():
         }
         
         # Send email with validation results
-        email_success = send_validation_report_email(
+        send_validation_report_email(
             fix_version_name=card_details['fixVersion'],
             results={'Not Started': 0, 'Deferred': 0, 'In Progress': 0,
                     'Pending First Occurrence': 0, 'Partially Validated': 0,
@@ -56,11 +59,6 @@ def main():
             }],
             validation_results=validation_data
         )
-        
-        if email_success:
-            print("✅ Email sent successfully!")
-        else:
-            print("❌ Failed to send email")
 
     except Exception as e:
         print("Authentication failed or connection error occurred:", str(e))
