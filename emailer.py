@@ -16,8 +16,7 @@ def send_validation_report_email(fix_version_name, results, cards, validation_re
     msg = MIMEMultipart()
     msg['Subject'] = f"Stratus Validation Report: {fix_version_name} - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
     msg['From'] = "junsoeng.lee@jpmchase.com"
-    msg['To'] = "junsoeng.lee@jpmchase.com"
-    # "Stratus_PROD_Validations@restricted.chase.com"
+    msg['To'] = "Stratus_PROD_Validations@restricted.chase.com"
     
     # Create HTML content
     html = f"""
